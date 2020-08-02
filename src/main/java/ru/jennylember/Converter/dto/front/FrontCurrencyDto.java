@@ -15,6 +15,6 @@ public class FrontCurrencyDto {
     private String name;
 
     public static FrontCurrencyDto fromDao(CurrencyDao dao) {
-        return new FrontCurrencyDto(dao.getNumCode(), dao.getName());
+        return new FrontCurrencyDto(dao.getDateAndCode().getCode(), dao.getName());
     }
 }

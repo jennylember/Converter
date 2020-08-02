@@ -1,34 +1,37 @@
 package ru.jennylember.Converter.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import ru.jennylember.Converter.repository.CurrencyRepository;
-import ru.jennylember.Converter.repository.dao.CurrencyDao;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Conversion {
 
-    // TODO Реализовать конвертацию
-    public static BigDecimal doConversion(String firstCurrencyCode, Integer firstCurrencyNominal, BigDecimal firstCurrencyValue,
-                                          BigDecimal firstCurrencyAmount, String secondCurrencyCode) {
+    public static BigDecimal doConversion(@NotNull Integer firstCurrencyNominal, @NotNull BigDecimal firstCurrencyValue, BigDecimal firstCurrencyAmount,
+                                          @NotNull Integer secondCurrencyNominal, @NotNull BigDecimal secondCurrencyValue) {
 
-        BigDecimal secondCurrencyAmount = null;
+        return firstCurrencyAmount
+                .multiply(firstCurrencyValue)
+                .multiply(new BigDecimal(secondCurrencyNominal))
+                .divide(new BigDecimal(firstCurrencyNominal), 4, RoundingMode.HALF_UP)
+                .divide(secondCurrencyValue, 4, RoundingMode.HALF_UP);
 
+    }
 
-        if (secondCurrencyCode.equals("RUB")) {
-            secondCurrencyAmount = firstCurrencyAmount
-                    .multiply(firstCurrencyValue)
-                    .divide(BigDecimal.valueOf(firstCurrencyNominal));
-        }
+    // If firstCurrencyCode "RUB"
+    public static BigDecimal doConversion(BigDecimal firstCurrencyAmount, Integer secondCurrencyNominal, BigDecimal secondCurrencyValue) {
 
-        if (firstCurrencyCode.equals("RUB")) {
-            secondCurrencyAmount = BigDecimal.valueOf(firstCurrencyNominal)
-                    .divide(firstCurrencyValue)
-                    .multiply(firstCurrencyAmount);
-        }
+        return new BigDecimal(secondCurrencyNominal)
+                .multiply(firstCurrencyAmount)
+                .divide(secondCurrencyValue, 4, RoundingMode.HALF_UP);
 
-        return secondCurrencyAmount;
+    }
+
+    // If secondCurrencyCode "RUB"
+    public static BigDecimal doConversion(Integer firstCurrencyNominal, BigDecimal firstCurrencyValue, BigDecimal firstCurrencyAmount) {
+        return firstCurrencyAmount
+                .multiply(firstCurrencyValue)
+                .divide(new BigDecimal(firstCurrencyNominal), 4, RoundingMode.HALF_UP);
     }
 
 }

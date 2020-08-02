@@ -10,9 +10,8 @@ import ru.jennylember.Converter.utils.JaxbUtils;
 
 import javax.annotation.PostConstruct;
 
-@Component
 @Slf4j
-// TODO удалить
+@Component
 public class CbrCurrenciesExtractor implements CurrenciesExtractor {
 
     @Override

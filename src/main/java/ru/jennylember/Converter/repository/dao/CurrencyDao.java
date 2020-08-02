@@ -31,7 +31,7 @@ public class CurrencyDao implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "value")
+    @Column(name = "value", scale = 4)
     private BigDecimal value;
 
     public static CurrencyDao fromDto(LocalDate date, CurrencyDto dto) {
